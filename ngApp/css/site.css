@@ -1,0 +1,32 @@
+body {
+  background-color: #f0f0f0;
+}
+
+button {
+  width: 100%;
+  margin-bottom: 10px !important;
+}
+
+
+.nav {
+  background-color: #ee1515 !important;
+}
+
+.panel-default {
+  margin-bottom: 0px !important;
+}
+
+.hdr {
+  margin-top: 100px !important;
+}
+
+.title {
+  font-size: 40px;
+  margin-top: 10px;
+}
+
+#mapDiv {
+  height: 60vh;
+  width:100%;
+  border-bottom: 5px solid #222224;
+}

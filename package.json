@@ -1,0 +1,24 @@
+{
+  "name": "poke-locator",
+  "version": "0.0.0",
+  "description": "an app that allows Pokemon Go trainers to record and lookup places where rare pokemon have recently been sighted",
+  "scripts": {
+    "start": "node ./bin/www",
+    "devStart": "nodemon ./bin/www"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "cookie-parser": "^1.4.1",
+    "dotenv": "^2.0.0",
+    "ejs": "^2.5.2",
+    "express": "^4.14.0",
+    "express-jwt": "^5.0.0",
+    "jsonwebtoken": "^7.1.9",
+    "mongoose": "^4.6.0",
+    "morgan": "^1.7.0",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "serve-favicon": "^2.3.0"
+  }
+}

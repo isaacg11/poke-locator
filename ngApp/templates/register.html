@@ -1,0 +1,47 @@
+
+<div class="row">
+  <div class="col-xs-4"></div>
+  <div class="col-xs-4">
+
+    <!-- header start -->
+    <div class="text-center">
+      <img src="images/pointer.png" class="hdr" />
+      <p class="title"><b>Poké</b>-Locator</p>
+    </div>
+    <!-- header end -->
+
+    <!-- register input start -->
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <form ng-submit="vm.register()">
+          <div class="form-group">
+            <h2>Register</h2>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Email address</label>
+            <input
+              type="email"
+              class="form-control"
+              id="exampleInputEmail1"
+              placeholder="Email"
+              ng-model="vm.user.email" />
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input
+              type="password"
+              class="form-control"
+              id="exampleInputPassword1"
+              placeholder="Password"
+              ng-model="vm.user.password" />
+          </div>
+          <button type="submit" class="btn btn-default">Submit</button>
+          <a ui-sref="Login">Cancel</a>
+        </form>
+      </div>
+    </div>
+    <!-- register input end -->
+
+  </div>
+  <div class="col-xs-4"></div>
+</div>
