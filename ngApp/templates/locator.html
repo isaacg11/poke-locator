@@ -1,2 +1,107 @@
 
-<div id="mapDiv"></div>
+<!-- navbar start -->
+<nav class="navbar navbar-default">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">
+        <img src="images/pointer2.png" />
+      </a>
+      <p class="navbar-text"><b>Poké</b>-Locator</p>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <form class="navbar-form navbar-left">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search...">
+        </div>
+      </form>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a class="white">Feed</a></li>
+        <li><a class="white" ng-click="vm.logout()">Logout</a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+<!-- navbar end -->
+
+<div class="row">
+  <div class="container ">
+    <div class="col-xs-7">
+
+      <!-- map start -->
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <div id="mapDiv"></div>
+        </div>
+      </div>
+      <!-- map end -->
+
+    </div>
+    <div class="col-xs-5">
+
+      <!-- input start -->
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <form>
+            <div class="form-group">
+              <h4>Seen any rare pokémon?</h4>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1">When?</label>
+              <input
+                type="date"
+                class="form-control"
+                id="exampleInputEmail1" />
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1">What?</label>
+              <input
+                type="text"
+                class="form-control"
+                id="exampleInputEmail1"
+                placeholder="Enter Pokémon..."/>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1">Where?</label>
+              <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Enter Address...">
+            </div>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox"> My Current Location
+              </label>
+            </div>
+            <button type="submit" class="btn btn-default">Submit</button>
+          </form>
+        </div>
+      </div>
+      <!-- input end -->
+
+      <!-- stats start -->
+      <div class="panel panel-default" style="margin-top:20px;">
+        <div class="panel-body">
+          <h4>Player stats</h4>
+          <table class="table table-bordered">
+            <tr>
+              <td>
+                Rare Sightings
+              </td>
+              <td>
+                99
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <!-- stats end -->
+
+    </div>
+  </div>
+</div>

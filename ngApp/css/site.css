@@ -7,9 +7,25 @@ button {
   margin-bottom: 10px !important;
 }
 
+.navbar {
+    position: relative;
+    min-height: 50px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    background-color: #ee1515 !important;
+}
 
-.nav {
-  background-color: #ee1515 !important;
+.navbar-text {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    margin-left: 0px;
+    color: #ffffff !important;
+    margin-left: 0px;
+}
+
+.white {
+  color: #ffffff !important;
+  cursor: pointer;
 }
 
 .panel-default {
@@ -26,7 +42,6 @@ button {
 }
 
 #mapDiv {
-  height: 60vh;
+  height: 75vh;
   width:100%;
-  border-bottom: 5px solid #222224;
 }
