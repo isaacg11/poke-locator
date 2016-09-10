@@ -37,19 +37,19 @@ router.post('/users/register', function(req, res){
 
 // POST - Login
 router.post('/users/login', function(req, res, next) {
-  User.find({username: req.body.username}, function(err, user) {
+  User.find({email: req.body.email}, function(err, user) {
     if(user.length < 1) {
-      res.send({message: 'Incorrect username'});
+      res.send({message: 'Incorrect email'});
     }
     else {
-      let passwordHash = crypto.pbkdf2Sync(req.body.password, user[0].salt, 1000, 64).toString('hex');
-      if(user[0].passwordHash === passwordHash) {
+      let hash = crypto.pbkdf2Sync(req.body.password, user[0].salt, 1000, 64).toString('hex');
+      if(user[0].password === hash) {
         let today:any = new Date();
         let exp:any = new Date(today);
         exp.setDate(today.getDate() + 36500);
         let token = jwt.sign({
           id: user[0]._id,
-          username: user[0].username,
+          email: user[0].email,
           exp: exp.getTime() / 1000
         }, 'SecretKey');
 
