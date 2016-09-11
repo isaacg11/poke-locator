@@ -55,30 +55,48 @@
               <h4>Seen any rare pokémon?</h4>
             </div>
             <div class="form-group">
-              <label for="exampleInputEmail1">When?</label>
+              <label for="exampleInputEmail1">Date</label>
               <input
                 type="date"
                 class="form-control"
-                id="exampleInputEmail1" />
+                id="exampleInputEmail1"
+                ng-model="vm.info.date"/>
             </div>
+            <form class="form-inline">
             <div class="form-group">
-              <label for="exampleInputEmail1">What?</label>
+              <label for="exampleInputEmail1">Name</label>
               <input
                 type="text"
                 class="form-control"
                 id="exampleInputEmail1"
-                placeholder="Enter Pokémon..."/>
+                placeholder="Enter Pokémon..."
+                ng-model="vm.info.name" />
             </div>
             <div class="form-group">
-              <label for="exampleInputPassword1">Where?</label>
-              <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Enter Address...">
+              <label for="exampleInputEmail1">CP Level</label>
+              <input
+                type="text"
+                class="form-control"
+                id="exampleInputEmail1"
+                placeholder="Enter Level..."
+                ng-model="vm.info.level" />
+            </div>
+            </form>
+            <div class="form-group">
+              <label for="exampleInputPassword1">Location</label>
+              <input
+                type="text"
+                class="form-control"
+                id="exampleInputPassword1"
+                placeholder="Enter Address..."
+                ng-model="vm.info.address" />
             </div>
             <div class="checkbox">
               <label>
-                <input type="checkbox"> My Current Location
+                <input type="checkbox" ng-model="vm.info.current"/> My Current Location
               </label>
             </div>
-            <button type="submit" class="btn btn-default">Submit</button>
+            <button type="submit" class="btn btn-default" ng-click="vm.post()">Submit</button>
           </form>
         </div>
       </div>

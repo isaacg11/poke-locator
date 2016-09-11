@@ -34,6 +34,7 @@ app.use('/scripts', express.static('bower_components'));
 
 // API endpoints
 app.use('/api', require('./api/users'));
+app.use('/api', require('./api/pokemon'));
 
 app.get('/*', function(req, res, next) {
   if (/.js|.html|.css|templates|js|scripts/.test(req.path) || req.xhr) {

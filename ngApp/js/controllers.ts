@@ -1,5 +1,8 @@
 // globals
 let MJ;
+let GeocoderJS;
+var openStreetMapGeocoder = GeocoderJS.createGeocoder('openstreetmap');
+let currentLocation;
 
 namespace app.Controllers {
 
@@ -49,10 +52,46 @@ namespace app.Controllers {
 
   // locator
   export class LocatorController {
-    constructor() {
+    public info;
+
+    public post() {
+      let formData = this.info;
+
+      if(formData.current === true) {
+
+        formData.location = {
+          lat: currentLocation.coords.latitude,
+          lng: currentLocation.coords.longitude
+        }
+
+        console.log(formData);
+
+      } else {
+        openStreetMapGeocoder.geocode(this.info.address, function(result) {
+
+          formData.location = {
+            lat: result[0].latitude,
+            lng: result[0].longitude
+          }
+
+          console.log(formData);
+
+        })
+      }
+
+      // this.pokemonService.post(this.info).then(() => {
+      //   console.log('Success');
+      // })
+    }
+
+    constructor(
+      private pokemonService: app.Services.PokemonService
+    ) {
       navigator.geolocation.getCurrentPosition(showPosition);
 
       function showPosition(position) {
+        currentLocation = position;
+
         let map1 = new MJ.map('mapDiv', {
           centerMap: [position.coords.latitude, position.coords.longitude],
           zoom: 16,
@@ -60,8 +99,8 @@ namespace app.Controllers {
           markers:[]
         });
       }
-
     }
+
   }
 
   // register controllers with the main app module

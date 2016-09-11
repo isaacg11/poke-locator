@@ -1,5 +1,6 @@
 namespace app.Services {
-  //UserService
+
+  // users
   export class UserService {
     public RegisterResource;
     public LoginResource;
@@ -19,6 +20,21 @@ namespace app.Services {
     }
   }
 
+  // pokemon
+  export class PokemonService {
+    public PokemonResource;
+
+    public post(pokemon) {
+      return this.PokemonResource.save(pokemon).$promise;
+    }
+
+    constructor(
+      private $resource: ng.resource.IResourceService){
+        this.PokemonResource = $resource('/api/users/pokemon');
+    }
+  }
+
   // register services with main app module
   angular.module('app').service('userService', UserService);
+  angular.module('app').service('pokemonService', PokemonService);
 }
