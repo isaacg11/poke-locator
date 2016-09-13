@@ -31,14 +31,7 @@ namespace app.Services {
       this.PokemonResource = $resource('/api/pokemon/:id');
     }
 
-    public geocode(address) {
-      openStreetMapGeocoder.geocode(address, function(result) {
-        return result;
-      })
-    }
-
     public post(pokemon) {
-      console.log(pokemon);
       return this.PokemonResource.save(pokemon).$promise;
     }
 

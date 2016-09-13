@@ -1,7 +1,7 @@
 // globals
 let MJ;
-let GeocoderJS;
-var openStreetMapGeocoder = GeocoderJS.createGeocoder('openstreetmap');
+let L;
+let currentLocation;
 let token = window.localStorage['token'];
 let payload;
 if(token) {
@@ -57,25 +57,21 @@ namespace app.Controllers {
     public info;
     public pokemon;
 
-    public postData() {
-
-      let coords = this.pokemonService.geocode(this.info.address);
-      console.log(coords);
-
+    public post() {
       let formData = this.info;
       formData.trainer = payload.username;
 
-        // openStreetMapGeocoder.geocode(this.info.address, function(result) {
-        //
-        //   formData.location = {
-        //     lat: result[0].latitude,
-        //     lng: result[0].longitude
-        //   }
-        //
-        //   this.pkmnSvc.post(formData).then(() => {
-        //     console.log('Success');
-        //   })
-        // })
+      if(formData.current === true) {
+        formData.latitude = currentLocation.coords.latitude;
+        formData.longitude = currentLocation.coords.longitude;
+        this.pokemonService.post(formData).then((res) => {
+          console.log(res);
+        })
+      } else {
+        this.pokemonService.post(formData).then((res) => {
+          console.log(res);
+        })
+      }
     }
 
 
@@ -84,13 +80,12 @@ namespace app.Controllers {
     ) {
 
       this.pokemon = this.pokemonService.getAll(payload.username);
-      console.log(this.pokemon);
       let myPokemon = this.pokemon;
 
       navigator.geolocation.getCurrentPosition(showPosition);
 
       function showPosition(position) {
-
+        currentLocation = position;
         let map1 = new MJ.map('mapDiv', {
           centerMap: [position.coords.latitude, position.coords.longitude],
           zoom: 12,
@@ -99,12 +94,13 @@ namespace app.Controllers {
         });
 
         for(let i = 0; i < myPokemon.length; i++) {
-          console.log(myPokemon[i].location);
 
-          let myMarker = new MJ.marker(map1, {
-            latLng: [myPokemon[i].location.lat, myPokemon[i].location.lng],
-            size: 'm'
+          var myIcon = L.icon({
+            iconUrl: 'images/pointer3.png'
           });
+
+          L.marker([myPokemon[i].location.lat, myPokemon[i].location.lng], {icon: myIcon}).addTo(map1);
+
         }
       }
     }
