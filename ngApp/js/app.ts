@@ -16,10 +16,10 @@ namespace app {
       templateUrl: '/templates/register.html',
       controller: app.Controllers.RegisterController,
       controllerAs: 'vm'
-    }).state('Locator', {
-      url: '/locator',
-      templateUrl: '/templates/locator.html',
-      controller: app.Controllers.LocatorController,
+    }).state('Profile', {
+      url: '/profile',
+      templateUrl: '/templates/profile.html',
+      controller: app.Controllers.ProfileController,
       controllerAs: 'vm'
     });
 

@@ -8,7 +8,10 @@ let jwt = require("jsonwebtoken");
 
 // Model
 let User = mongoose.model('User', {
-	email: String,
+	username: {
+		type: String,
+		unique: true
+	},
 	password: String,
 	salt: String
 });
@@ -19,7 +22,7 @@ router.post('/users/register', function(req, res){
   let hash = crypto.pbkdf2Sync(req.body.password, salt, 1000, 64).toString('hex');
 
   let newUser = new User({
-    email: req.body.email,
+    username: req.body.username,
   	password: hash,
   	salt: salt
   });
@@ -37,9 +40,9 @@ router.post('/users/register', function(req, res){
 
 // POST - Login
 router.post('/users/login', function(req, res, next) {
-  User.find({email: req.body.email}, function(err, user) {
+  User.find({username: req.body.username}, function(err, user) {
     if(user.length < 1) {
-      res.send({message: 'Incorrect email'});
+      res.send({message: 'Incorrect username'});
     }
     else {
       let hash = crypto.pbkdf2Sync(req.body.password, user[0].salt, 1000, 64).toString('hex');
@@ -49,7 +52,7 @@ router.post('/users/login', function(req, res, next) {
         exp.setDate(today.getDate() + 36500);
         let token = jwt.sign({
           id: user[0]._id,
-          email: user[0].email,
+          username: user[0].username,
           exp: exp.getTime() / 1000
         }, 'SecretKey');
 

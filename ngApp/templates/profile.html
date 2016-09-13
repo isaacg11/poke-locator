@@ -13,7 +13,7 @@
       <a class="navbar-brand" href="#">
         <img src="images/pointer2.png" />
       </a>
-      <p class="navbar-text"><b>Poké</b>-Locator</p>
+      <p class="navbar-text"><b>Poké</b>-Tracker</p>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -39,6 +39,7 @@
       <!-- map start -->
       <div class="panel panel-default">
         <div class="panel-body">
+          <h4>Recorded Sightings</h4>
           <div id="mapDiv"></div>
         </div>
       </div>
@@ -96,7 +97,7 @@
                 <input type="checkbox" ng-model="vm.info.current"/> My Current Location
               </label>
             </div>
-            <button type="submit" class="btn btn-default" ng-click="vm.post()">Submit</button>
+            <button type="submit" class="btn btn-default" ng-click="vm.postData()">Submit</button>
           </form>
         </div>
       </div>
@@ -105,14 +106,14 @@
       <!-- stats start -->
       <div class="panel panel-default" style="margin-top:20px;">
         <div class="panel-body">
-          <h4>Player stats</h4>
+          <h4>Trainer stats</h4>
           <table class="table table-bordered">
             <tr>
               <td>
                 Rare Sightings
               </td>
               <td>
-                99
+                {{vm.pokemon.length}}
               </td>
             </tr>
           </table>

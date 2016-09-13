@@ -5,6 +5,12 @@ namespace app.Services {
     public RegisterResource;
     public LoginResource;
 
+    constructor(
+      private $resource: ng.resource.IResourceService){
+        this.RegisterResource = $resource('/api/users/register');
+        this.LoginResource = $resource('/api/users/login');
+    }
+
     public register(user) {
       return this.RegisterResource.save(user).$promise;
     }
@@ -13,25 +19,33 @@ namespace app.Services {
       return this.LoginResource.save(user).$promise;
     }
 
-    constructor(
-      private $resource: ng.resource.IResourceService){
-        this.RegisterResource = $resource('/api/users/register');
-        this.LoginResource = $resource('/api/users/login');
-    }
   }
 
   // pokemon
   export class PokemonService {
     public PokemonResource;
 
+    constructor(
+      private $resource: ng.resource.IResourceService
+    ){
+      this.PokemonResource = $resource('/api/pokemon/:id');
+    }
+
+    public geocode(address) {
+      openStreetMapGeocoder.geocode(address, function(result) {
+        return result;
+      })
+    }
+
     public post(pokemon) {
+      console.log(pokemon);
       return this.PokemonResource.save(pokemon).$promise;
     }
 
-    constructor(
-      private $resource: ng.resource.IResourceService){
-        this.PokemonResource = $resource('/api/users/pokemon');
+    public getAll(username) {
+      return this.PokemonResource.query({id: username});
     }
+
   }
 
   // register services with main app module
