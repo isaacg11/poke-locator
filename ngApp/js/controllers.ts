@@ -1,6 +1,7 @@
 // globals
 let MJ;
 let L;
+let map1;
 let currentLocation;
 let token = window.localStorage['token'];
 let payload;
@@ -76,21 +77,32 @@ namespace app.Controllers {
   export class ProfileController {
     public info;
     public pokemon;
+    public payload;
 
     public post() {
       let formData = this.info;
-      formData.trainer = payload.username;
+      formData.trainer = this.payload.username;
+      let myIcon = L.icon({
+        iconUrl: 'images/pointer3.png'
+      });
 
       if(formData.current === true) {
         formData.latitude = currentLocation.coords.latitude;
         formData.longitude = currentLocation.coords.longitude;
         this.pokemonService.post(formData).then((res) => {
-          console.log(res);
+          this.pokemon.length = this.pokemon.length + 1;
+          addMarker(res);
         })
       } else {
         this.pokemonService.post(formData).then((res) => {
-          console.log(res);
+          this.pokemon.length = this.pokemon.length + 1;
+          addMarker(res);
         })
+      }
+      function addMarker(info) {
+        map1.panTo([info.location.lat, info.location.lng]);
+        map1.setZoom(18);
+        L.marker([info.location.lat, info.location.lng], {icon: myIcon}).addTo(map1);
       }
     }
 
@@ -105,15 +117,15 @@ namespace app.Controllers {
       public $stateParams: ng.ui.IStateParamsService,
       public $window
     ) {
-      let payload = JSON.parse(window.atob(token.split('.')[1]));
-      this.pokemon = this.pokemonService.getAll(payload.username);
+      this.payload = JSON.parse(window.atob(token.split('.')[1]));
+      this.pokemon = this.pokemonService.getAll(this.payload.username);
       let myPokemon = this.pokemon;
 
       navigator.geolocation.getCurrentPosition(showPosition);
 
       function showPosition(position) {
         currentLocation = position;
-        let map1 = new MJ.map('mapDiv', {
+        map1 = new MJ.map('mapDiv', {
           centerMap: [position.coords.latitude, position.coords.longitude],
           zoom: 12,
           accessToken: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1N2FmNmM5YzUxM2E3MDM2MDAyNzcxNzkiLCJpc3MiOiJtYXBqYW0uY29tIn0.2COM3S6NWaWy7i5RBA9Os6_TzuZPLR87180lLMeyJMA ',

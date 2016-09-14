@@ -15,7 +15,6 @@ let Pokemon = mongoose.model('Pokemon', {
 
 // POST - add a new pokemon sighting
 router.post('/pokemon', function(req, res) {
-	console.log(req.body);
 	if(req.body.latitude) {
 		let newPokemon = new Pokemon({
 			name: req.body.name,
@@ -34,7 +33,7 @@ router.post('/pokemon', function(req, res) {
 				res.end();
 			} else {
 				console.log(pokemon);
-				res.end();
+				res.send(pokemon);
 			}
 		})
 	} else {
@@ -56,7 +55,7 @@ router.post('/pokemon', function(req, res) {
 					res.end();
 				} else {
 					console.log(pokemon);
-					res.end();
+					res.send(pokemon);
 				}
 			})
 		});
