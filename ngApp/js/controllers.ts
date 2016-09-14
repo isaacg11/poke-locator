@@ -137,7 +137,13 @@ namespace app.Controllers {
             iconUrl: 'images/pointer3.png'
           });
 
-          L.marker([myPokemon[i].location.lat, myPokemon[i].location.lng], {icon: myIcon}).addTo(map1);
+          let marker = L.marker([myPokemon[i].location.lat, myPokemon[i].location.lng], {icon: myIcon}).addTo(map1);
+
+          console.log(myPokemon);
+          marker.bindPopup(
+            '<p><b> Name</b>: ' + myPokemon[i].name + '<p>' +
+            '<p><b> Level</b>: ' + myPokemon[i].level.toString() + '<p>' +
+            '<p><b> Seen</b>: ' + new Date(myPokemon[i].date) + '<p>').openPopup();
         }
       }
     }
