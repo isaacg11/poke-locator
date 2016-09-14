@@ -12,6 +12,7 @@ let User = mongoose.model('User', {
 		type: String,
 		unique: true
 	},
+	team: String,
 	password: String,
 	salt: String
 });
@@ -23,6 +24,7 @@ router.post('/users/register', function(req, res){
 
   let newUser = new User({
     username: req.body.username,
+		team: req.body.team,
   	password: hash,
   	salt: salt
   });
@@ -33,7 +35,16 @@ router.post('/users/register', function(req, res){
       res.end();
     } else {
       console.log(user);
-      res.end();
+			let today:any = new Date();
+			let exp:any = new Date(today);
+			exp.setDate(today.getDate() + 36500);
+			let token = jwt.sign({
+				id: user._id,
+				username: user.username,
+				team: user.team,
+				exp: exp.getTime() / 1000
+			}, 'SecretKey');
+      res.send({jwt: token});
     }
   })
 });

@@ -4,9 +4,6 @@ let L;
 let currentLocation;
 let token = window.localStorage['token'];
 let payload;
-if(token) {
-  payload = JSON.parse(window.atob(token.split('.')[1]));
-}
 
 namespace app.Controllers {
 
@@ -29,6 +26,7 @@ namespace app.Controllers {
       private userService: app.Services.UserService,
       public $state: ng.ui.IStateService) {
     		if(token) {
+          payload = JSON.parse(window.atob(token.split('.')[1]));
           if (payload.exp > Date.now() / 1000) {
             this.$state.go("Profile");
           }
@@ -41,7 +39,23 @@ namespace app.Controllers {
     public user;
 
     public register() {
-      this.userService.register(this.user).then(() => {
+      if(this.user.instinct === true) {
+        this.user.team = 'instinct';
+        this.process(this.user);
+      }
+      else if(this.user.mystic ===true) {
+        this.user.team = 'mystic';
+        this.process(this.user);
+      }
+      else if(this.user.valor === true) {
+        this.user.team = 'valor';
+        this.process(this.user);
+      }
+    }
+
+    public process(user) {
+      this.userService.register(user).then((res) => {
+        window.localStorage['token'] = res.jwt;
         this.$state.go('Profile');
       })
     }
@@ -49,7 +63,13 @@ namespace app.Controllers {
     constructor(
       private userService: app.Services.UserService,
       public $state: ng.ui.IStateService) {
-    }
+        if(token) {
+          payload = JSON.parse(window.atob(token.split('.')[1]));
+          if (payload.exp > Date.now() / 1000) {
+            this.$state.go("Profile");
+          }
+    		}
+      }
   }
 
   // profile
@@ -74,11 +94,18 @@ namespace app.Controllers {
       }
     }
 
+    public logout() {
+      localStorage.removeItem('token');
+      this.$window.location = "/";
+    };
 
     constructor(
-      private pokemonService: app.Services.PokemonService
+      private pokemonService: app.Services.PokemonService,
+      public $state: ng.ui.IStateService,
+      public $stateParams: ng.ui.IStateParamsService,
+      public $window
     ) {
-
+      let payload = JSON.parse(window.atob(token.split('.')[1]));
       this.pokemon = this.pokemonService.getAll(payload.username);
       let myPokemon = this.pokemon;
 
@@ -94,13 +121,11 @@ namespace app.Controllers {
         });
 
         for(let i = 0; i < myPokemon.length; i++) {
-
-          var myIcon = L.icon({
+          let myIcon = L.icon({
             iconUrl: 'images/pointer3.png'
           });
 
           L.marker([myPokemon[i].location.lat, myPokemon[i].location.lng], {icon: myIcon}).addTo(map1);
-
         }
       }
     }
