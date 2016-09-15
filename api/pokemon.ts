@@ -10,7 +10,8 @@ let Pokemon = mongoose.model('Pokemon', {
   level: Number,
 	location: Object,
 	date: Date,
-  trainer: String
+  trainer: String,
+	teamTag: String
 });
 
 // POST - add a new pokemon sighting
@@ -24,7 +25,8 @@ router.post('/pokemon', function(req, res) {
 				lng: req.body.longitude
 			},
 			date: req.body.date,
-			trainer: req.body.trainer
+			trainer: req.body.trainer,
+			teamTag: req.body.teamTag
 		});
 
 		newPokemon.save((err, pokemon) => {
@@ -46,7 +48,8 @@ router.post('/pokemon', function(req, res) {
 					lng: info.geometry.longitude
 				},
 				date: req.body.date,
-				trainer: req.body.trainer
+				trainer: req.body.trainer,
+				teamTag: req.body.teamTag
 			});
 
 			newPokemon.save((err, pokemon) => {
@@ -62,12 +65,20 @@ router.post('/pokemon', function(req, res) {
 	}
 });
 
-// GET - get all trainer sightings
-router.get('/pokemon/:id', function(req, res) {
-  Pokemon.find({trainer: req.params['id']}).then((pokemon) => {
+// GET - trainer sightings
+router.get('/trainer/:username', function(req, res) {
+  Pokemon.find({trainer: req.params['username']}).then((pokemon) => {
     res.send(pokemon);
   })
 });
+
+// GET - team sightings
+router.get('/team/:type', function(req, res) {
+  Pokemon.find({teamTag: req.params['type']}).then((pokemon) => {
+    res.send(pokemon);
+  })
+});
+
 
 // export module
 export = router;

@@ -23,22 +23,27 @@ namespace app.Services {
 
   // pokemon
   export class PokemonService {
-    public PokemonResource;
+    public TrainerResource;
+    public TeamResource;
 
     constructor(
       private $resource: ng.resource.IResourceService
     ){
-      this.PokemonResource = $resource('/api/pokemon/:id');
+      this.TrainerResource = $resource('/api/trainer/:username');
+      this.TeamResource = $resource('/api/team/:type');
     }
 
     public post(pokemon) {
-      return this.PokemonResource.save(pokemon).$promise;
+      return this.TrainerResource.save(pokemon).$promise;
     }
 
-    public getAll(username) {
-      return this.PokemonResource.query({id: username});
+    public getTrainerPokemon(username) {
+      return this.TrainerResource.query({username: username});
     }
 
+    public getTeamPokemon(team) {
+      return this.TeamResource.query({type: team});
+    }
   }
 
   // register services with main app module

@@ -21,6 +21,11 @@ namespace app {
       templateUrl: '/templates/profile.html',
       controller: app.Controllers.ProfileController,
       controllerAs: 'vm'
+    }).state('Feed', {
+      url: '/feed/:team',
+      templateUrl: '/templates/feed.html',
+      controller: app.Controllers.FeedController,
+      controllerAs: 'vm'
     });
 
     $urlRouterProvider.otherwise('/');

@@ -79,8 +79,9 @@ namespace app.Controllers {
     public pokemon;
     public payload;
 
-    public post() {
+    public add() {
       let formData = this.info;
+      formData.teamTag = this.payload.team;
       formData.trainer = this.payload.username;
       let myIcon = L.icon({
         iconUrl: 'images/pointer3.png'
@@ -118,7 +119,7 @@ namespace app.Controllers {
       public $window
     ) {
       this.payload = JSON.parse(window.atob(token.split('.')[1]));
-      this.pokemon = this.pokemonService.getAll(this.payload.username);
+      this.pokemon = this.pokemonService.getTrainerPokemon(this.payload.username);
       let myPokemon = this.pokemon;
 
       navigator.geolocation.getCurrentPosition(showPosition);
@@ -139,11 +140,30 @@ namespace app.Controllers {
 
           let marker = L.marker([myPokemon[i].location.lat, myPokemon[i].location.lng], {icon: myIcon}).addTo(map1);
 
-          console.log(myPokemon);
           marker.bindPopup(
             '<p><b> Name</b>: ' + myPokemon[i].name + '<p>' +
-            '<p><b> Level</b>: ' + myPokemon[i].level.toString() + '<p>' +
-            '<p><b> Seen</b>: ' + new Date(myPokemon[i].date) + '<p>').openPopup();
+            '<p><b> CP Level</b>: ' + myPokemon[i].level.toString() + '<p>' +
+            '<p><b> Seen</b>: ' + new Date(myPokemon[i].date) + '<p>'
+          ).openPopup();
+          marker.closePopup();
+        }
+      }
+    }
+  }
+
+  // team feed
+  export class FeedController {
+    public pokemon;
+    constructor(
+      public $state: ng.ui.IStateService,
+      private pokemonService: app.Services.PokemonService
+    ) {
+      if(token) {
+        payload = JSON.parse(window.atob(token.split('.')[1]));
+        this.pokemon = this.pokemonService.getTeamPokemon(payload.team);
+        console.log(this.pokemon);
+        if (payload.exp < Date.now() / 1000) {
+          this.$state.go("Login");
         }
       }
     }
@@ -153,4 +173,5 @@ namespace app.Controllers {
   angular.module('app').controller('HomeController', LoginController);
   angular.module('app').controller('RegisterController', RegisterController);
   angular.module('app').controller('ProfileController', ProfileController);
+  angular.module('app').controller('FeedController', FeedController);
 }

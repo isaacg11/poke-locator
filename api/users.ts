@@ -64,6 +64,7 @@ router.post('/users/login', function(req, res, next) {
         let token = jwt.sign({
           id: user[0]._id,
           username: user[0].username,
+					team: user[0].team,
           exp: exp.getTime() / 1000
         }, 'SecretKey');
 
