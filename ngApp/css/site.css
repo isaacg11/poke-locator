@@ -7,6 +7,15 @@ button {
   margin-bottom: 10px !important;
 }
 
+a {
+  cursor: pointer;
+}
+
+#mapDiv {
+  height: 75vh;
+  width:100%;
+}
+
 .navbar {
     position: relative;
     min-height: 50px;
@@ -41,7 +50,7 @@ button {
   margin-top: 10px;
 }
 
-#mapDiv {
-  height: 75vh;
-  width:100%;
+.stats {
+  margin-top: 10px;
+  margin-bottom: 20px;
 }

@@ -9,6 +9,7 @@ let Pokemon = mongoose.model('Pokemon', {
 	name: String,
   level: Number,
 	location: Object,
+	address: String,
 	date: Date,
   trainer: String,
 	teamTag: String
@@ -17,29 +18,34 @@ let Pokemon = mongoose.model('Pokemon', {
 // POST - add a new pokemon sighting
 router.post('/pokemon', function(req, res) {
 	if(req.body.latitude) {
-		let newPokemon = new Pokemon({
-			name: req.body.name,
-			level: req.body.level,
-			location: {
-				lat: req.body.latitude,
-				lng: req.body.longitude
-			},
-			date: req.body.date,
-			trainer: req.body.trainer,
-			teamTag: req.body.teamTag
-		});
+		geo.geocode('mapzen',[req.body.latitude, req.body.longitude], {"api_key":"search-cwUEoYW"}, function(err, info){
 
-		newPokemon.save((err, pokemon) => {
-			if(err) {
-				console.log(err);
-				res.end();
-			} else {
-				console.log(pokemon);
-				res.send(pokemon);
-			}
-		})
+			let newPokemon = new Pokemon({
+				name: req.body.name,
+				level: req.body.level,
+				location: {
+					lat: req.body.latitude,
+					lng: req.body.longitude
+				},
+				address: info.feature.properties.pretty,
+				date: req.body.date,
+				trainer: req.body.trainer,
+				teamTag: req.body.teamTag
+			});
+
+			newPokemon.save((err, pokemon) => {
+				if(err) {
+					console.log(err);
+					res.end();
+				} else {
+					console.log(pokemon);
+					res.send(pokemon);
+				}
+			})
+		});
 	} else {
 		geo.geocode('mapzen',req.body.address, {"api_key":"search-cwUEoYW"}, function(err, info){
+			console.log(info);
 			let newPokemon = new Pokemon({
 				name: req.body.name,
 				level: req.body.level,
@@ -47,6 +53,7 @@ router.post('/pokemon', function(req, res) {
 					lat: info.geometry.latitude,
 					lng: info.geometry.longitude
 				},
+				address: info.address.pretty,
 				date: req.body.date,
 				trainer: req.body.trainer,
 				teamTag: req.body.teamTag

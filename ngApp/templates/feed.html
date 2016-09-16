@@ -20,6 +20,7 @@
     <div class="col-xs-12">
 
       <!-- table start -->
+      <div class="stats">
       <div class="panel panel-default">
         <div class="panel-body">
           <table class="table table-bordered">
@@ -29,15 +30,16 @@
               <th>CP Level</th>
               <th>Trainer</th>
             </tr>
-            <tr ng-repeat="p in vm.pokemon">
+            <tr ng-repeat="p in vm.pokemon | orderBy: '-date'">
               <td>{{p.date | date:'shortDate'}}</td>
-              <td>{{p.name}}</td>
+              <td><a ng-click="vm.display(p)">{{p.name}}</a></td>
               <td>{{p.level}}</td>
               <td>{{p.trainer}}</td>
             </tr>
           </table>
         </div>
       </div>
+    </div>
       <!-- table end -->
 
     </div>
