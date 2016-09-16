@@ -9,6 +9,26 @@ let payload;
 
 namespace app.Controllers {
 
+  // navbar
+  export class NavbarController {
+    public loggedIn;
+
+    public logout() {
+      localStorage.removeItem('token');
+      this.$window.location = "/";
+    };
+
+    constructor(
+      public $window
+    ) {
+      if(token) {
+        this.loggedIn = true;
+      } else {
+        this.loggedIn = false;
+      }
+    }
+  }
+
   // login
   export class LoginController {
     public user;
@@ -17,16 +37,18 @@ namespace app.Controllers {
       this.userService.login(this.user).then((res) => {
         if(res.message === 'Correct') {
           window.localStorage['token'] = res.jwt;
-          this.$state.go('Profile');
+          this.$window.location = "/profile";
         } else {
-          alert(res.message);
+          toastr.error(res.message);
         }
       })
     }
 
     constructor(
       private userService: app.Services.UserService,
-      public $state: ng.ui.IStateService) {
+      public $state: ng.ui.IStateService,
+      public $window
+    ) {
     		if(token) {
           payload = JSON.parse(window.atob(token.split('.')[1]));
           if (payload.exp > Date.now() / 1000) {
@@ -58,13 +80,14 @@ namespace app.Controllers {
     public process(user) {
       this.userService.register(user).then((res) => {
         window.localStorage['token'] = res.jwt;
-        this.$state.go('Profile');
+        this.$window.location = "/profile";
       })
     }
 
     constructor(
       private userService: app.Services.UserService,
-      public $state: ng.ui.IStateService) {
+      public $state: ng.ui.IStateService,
+      public $window) {
         if(token) {
           payload = JSON.parse(window.atob(token.split('.')[1]));
           if (payload.exp > Date.now() / 1000) {
@@ -116,11 +139,6 @@ namespace app.Controllers {
         ).openPopup();
       }
     }
-
-    public logout() {
-      localStorage.removeItem('token');
-      this.$window.location = "/";
-    };
 
     constructor(
       private pokemonService: app.Services.PokemonService,
@@ -210,7 +228,6 @@ namespace app.Controllers {
             });
 
             let marker = L.marker([teamPokemon[i].location.lat, teamPokemon[i].location.lng], {icon: myIcon}).addTo(map1);
-            console.log(teamPokemon[i].address)
             marker.bindPopup(
               '<p><b> Name</b>: ' + teamPokemon[i].name + '<p>' +
               '<p><b> CP Level</b>: ' + teamPokemon[i].level.toString() + '<p>' +
@@ -230,4 +247,5 @@ namespace app.Controllers {
   angular.module('app').controller('RegisterController', RegisterController);
   angular.module('app').controller('ProfileController', ProfileController);
   angular.module('app').controller('FeedController', FeedController);
+  angular.module('app').controller('NavbarController', NavbarController);
 }
