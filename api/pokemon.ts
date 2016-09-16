@@ -66,14 +66,14 @@ router.post('/pokemon', function(req, res) {
 });
 
 // GET - trainer sightings
-router.get('/trainer/:username', function(req, res) {
+router.get('/pokemon/trainer/:username', function(req, res) {
   Pokemon.find({trainer: req.params['username']}).then((pokemon) => {
     res.send(pokemon);
   })
 });
 
 // GET - team sightings
-router.get('/team/:type', function(req, res) {
+router.get('/pokemon/team/:type', function(req, res) {
   Pokemon.find({teamTag: req.params['type']}).then((pokemon) => {
     res.send(pokemon);
   })

@@ -154,18 +154,47 @@ namespace app.Controllers {
   // team feed
   export class FeedController {
     public pokemon;
+    public team;
+
     constructor(
       public $state: ng.ui.IStateService,
       private pokemonService: app.Services.PokemonService
     ) {
-      if(token) {
         payload = JSON.parse(window.atob(token.split('.')[1]));
+        this.team = payload.team;
         this.pokemon = this.pokemonService.getTeamPokemon(payload.team);
-        console.log(this.pokemon);
+        let teamPokemon = this.pokemon;
+        console.log(teamPokemon);
+
+        navigator.geolocation.getCurrentPosition(showPosition);
+
+        function showPosition(position) {
+          currentLocation = position;
+          map1 = new MJ.map('mapDiv', {
+            centerMap: [position.coords.latitude, position.coords.longitude],
+            zoom: 10,
+            accessToken: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1N2FmNmM5YzUxM2E3MDM2MDAyNzcxNzkiLCJpc3MiOiJtYXBqYW0uY29tIn0.2COM3S6NWaWy7i5RBA9Os6_TzuZPLR87180lLMeyJMA ',
+            markers:[]
+          });
+
+          for(let i = 0; i < teamPokemon.length; i++) {
+            let myIcon = L.icon({
+              iconUrl: 'images/pointer3.png'
+            });
+
+            let marker = L.marker([teamPokemon[i].location.lat, teamPokemon[i].location.lng], {icon: myIcon}).addTo(map1);
+
+            marker.bindPopup(
+              '<p><b> Name</b>: ' + teamPokemon[i].name + '<p>' +
+              '<p><b> CP Level</b>: ' + teamPokemon[i].level.toString() + '<p>' +
+              '<p><b> Seen</b>: ' + new Date(teamPokemon[i].date) + '<p>'
+            ).openPopup();
+            marker.closePopup();
+          }
+        }
         if (payload.exp < Date.now() / 1000) {
           this.$state.go("Login");
         }
-      }
     }
   }
 

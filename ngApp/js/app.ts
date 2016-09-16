@@ -22,7 +22,7 @@ namespace app {
       controller: app.Controllers.ProfileController,
       controllerAs: 'vm'
     }).state('Feed', {
-      url: '/feed/:team',
+      url: '/feed',
       templateUrl: '/templates/feed.html',
       controller: app.Controllers.FeedController,
       controllerAs: 'vm'

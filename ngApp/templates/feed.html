@@ -1,0 +1,45 @@
+<div class="row">
+  <div class="container ">
+    <div class="col-xs-12">
+
+      <!-- map start -->
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <h4>Team <b>{{vm.team}}</b> Sightings (near you)</h4>
+          <div id="mapDiv"></div>
+        </div>
+      </div>
+      <!-- map end -->
+
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="container ">
+    <div class="col-xs-12">
+
+      <!-- table start -->
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <table class="table table-bordered">
+            <tr>
+              <th>Date</th>
+              <th>Pokémon</th>
+              <th>CP Level</th>
+              <th>Trainer</th>
+            </tr>
+            <tr ng-repeat="p in vm.pokemon">
+              <td>{{p.date | date:'shortDate'}}</td>
+              <td>{{p.name}}</td>
+              <td>{{p.level}}</td>
+              <td>{{p.trainer}}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <!-- table end -->
+
+    </div>
+  </div>
+</div>

@@ -25,16 +25,18 @@ namespace app.Services {
   export class PokemonService {
     public TrainerResource;
     public TeamResource;
+    public PokemonResource;
 
     constructor(
       private $resource: ng.resource.IResourceService
     ){
-      this.TrainerResource = $resource('/api/trainer/:username');
-      this.TeamResource = $resource('/api/team/:type');
+      this.TrainerResource = $resource('/api/pokemon/trainer/:username');
+      this.TeamResource = $resource('/api/pokemon/team/:type');
+      this.PokemonResource = $resource('/api/pokemon');
     }
 
     public post(pokemon) {
-      return this.TrainerResource.save(pokemon).$promise;
+      return this.PokemonResource.save(pokemon).$promise;
     }
 
     public getTrainerPokemon(username) {
